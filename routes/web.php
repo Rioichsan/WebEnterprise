@@ -1,36 +1,30 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ContohController;
+use App\Http\Controllers\ProdukController;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/contoh', [ContohController::class, 'TampilContoh']);
+Route::get('produk', [ProdukController::class, 'ViewProduk']);
+Route::get('produk/add', [ProdukController::class, 'ViewAddProduk']);
+Route::post('produk/add', [ProdukController::class, 'CreateProduk']);
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
-require __DIR__.'/auth.php';
-
-Route::get('/biodata', function () {
-    $data = [
-        'name' =>'RIO ICHSAN WAHDANA',
-        'age_ttl' => '20/Cirebon, 05-01-2004',
-        'NIM' => '41522010151',
-        'Alamat' => 'Jl.H.Nurisan',
-        'no_hp' => '083877985851',
-        'Email' => 'puspitaatan@gmail.com'
-    ];
-    return view('biodata', compact('data'));
-});
-
-Route::get('/deskripsi', function () {
-    return view('deskripsi');
-});
+Route::delete('/produk/delete/{kode_produk}', [produkController::class, 'DeleteProduk']);
+Route::get('/produk/edit/{kode_produk}', [produkController::class, 'ViewEditProduk']);
+Route::put('/produk/edit/{kode_produk}', [produkController::class, 'UpdateProduk']);
